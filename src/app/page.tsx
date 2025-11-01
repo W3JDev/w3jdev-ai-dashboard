@@ -23,9 +23,10 @@ export default function Dashboard() {
             { id: "analytics", label: "Analytics", icon: "📈" },
             { id: "deployments", label: "Deployments", icon: "🚀" },
           ].map(item => (
-            <div 
+            <button 
               key={item.id}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all duration-200 ${
+              type="button"
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all duration-200 w-full text-left ${
                 currentPage === item.id 
                   ? "bg-gradient-to-r from-teal-500 to-cyan-600 text-white shadow-md" 
                   : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
@@ -34,7 +35,7 @@ export default function Dashboard() {
             >
               <span className="text-lg">{item.icon}</span>
               <span className="font-medium">{item.label}</span>
-            </div>
+            </button>
           ))}
         </nav>
         
@@ -104,7 +105,7 @@ export default function Dashboard() {
                 </div>
                 <div className="flex-1">
                   <div className="text-sm text-slate-500 mb-1">
-                    {new Date().toLocaleTimeString()} • Multi-AI-Autonomous-System
+                    Live • Multi-AI-Autonomous-System
                   </div>
                   <div className="font-medium text-slate-800">🚀 All 8 AI agents deployed successfully!</div>
                 </div>
