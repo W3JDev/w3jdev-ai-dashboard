@@ -6,8 +6,8 @@ export default function Dashboard() {
   const [currentPage, setCurrentPage] = useState("dashboard");
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <aside className="fixed left-0 top-0 h-full w-64 bg-white shadow-lg border-r border-slate-200 p-6 z-10">
+    <div className="min-h-screen bg-slate-50 text-slate-900 antialiased">
+      <aside className="fixed left-0 top-0 h-full w-64 bg-white shadow-lg border-r border-slate-200 p-6 z-10 text-slate-900">
         <div className="flex items-center gap-3 mb-8 pb-6 border-b border-slate-200">
           <div className="w-10 h-10 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
             W3
@@ -48,7 +48,7 @@ export default function Dashboard() {
         </div>
       </aside>
 
-      <main className="ml-64 p-6">
+      <main className="ml-64 p-6 bg-slate-50 text-slate-900">
         <div className="space-y-6">
           <div className="bg-gradient-to-r from-teal-500 via-cyan-600 to-blue-600 text-white p-8 rounded-2xl shadow-lg">
             <h1 className="text-4xl font-bold mb-4">🚀 Multi-AI Autonomous System</h1>
