@@ -49,11 +49,11 @@ export default function Dashboard() {
         </div>
       </aside>
 
-      <main className="ml-64 p-6 bg-slate-50 text-slate-900">
+      <main className="ml-64 p-6 bg-slate-50 text-slate-900 min-h-screen">
         {/* Dashboard Page */}
         {currentPage === 'dashboard' && (
           <div className="space-y-6">
-            <div className="bg-gradient-to-r from-teal-500 via-cyan-600 to-blue-600 text-white p-8 rounded-2xl shadow-lg">
+            <div className="bg-gradient-to-r from-teal-500 via-cyan-600 to-blue-600 text-white p-8 rounded-2xl shadow-lg border-2 border-slate-200">
             <h1 className="text-4xl font-bold mb-4">🚀 Multi-AI Autonomous System</h1>
             <p className="text-xl opacity-90 mb-8">
               8 Specialized AI Agents Managing 130+ Repositories • Generating Revenue 24/7
@@ -65,12 +65,12 @@ export default function Dashboard() {
                 { value: "$2.5K", label: "Monthly Revenue", icon: "💰" },
                 { value: "94%", label: "Success Rate", icon: "🎯" }
               ].map((stat, idx) => (
-                <div key={idx} className="bg-white/10 backdrop-blur-sm border border-white/20 p-6 rounded-xl hover:bg-white/20 transition-all duration-300">
+                <div key={idx} className="bg-white bg-opacity-20 backdrop-blur-sm border border-white border-opacity-30 p-6 rounded-xl hover:bg-opacity-30 transition-all duration-300 text-white">
                   <div className="flex items-center gap-3 mb-2">
                     <span className="text-2xl">{stat.icon}</span>
-                    <div className="text-3xl font-bold">{stat.value}</div>
+                    <div className="text-3xl font-bold text-white">{stat.value}</div>
                   </div>
-                  <div className="text-sm opacity-90">{stat.label}</div>
+                  <div className="text-sm opacity-90 text-white">{stat.label}</div>
                 </div>
               ))}
             </div>
