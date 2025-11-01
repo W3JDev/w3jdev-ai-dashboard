@@ -1,299 +1,117 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-
-interface Repository {
-  id: number;
-  name: string;
-  category: string;
-  status: string;
-  agent: string;
-  deploymentPlatform: string;
-  liveUrl: string;
-  description: string;
-  estimatedMRR: string;
-}
-
-interface Agent {
-  id: number;
-  name: string;
-  specialization: string;
-  totalTasks: number;
-  completedTasks: number;
-  successRate: number;
-  repositoriesAssigned: number;
-  status: string;
-}
-
-interface Activity {
-  timestamp: string;
-  repository: string;
-  message: string;
-}
+import React, { useState } from "react";
 
 export default function Dashboard() {
-  const [currentPage, setCurrentPage] = useState('dashboard');
-  const [repositories, setRepositories] = useState<Repository[]>([]);
-  const [agents, setAgents] = useState<Agent[]>([]);
-  const [activities, setActivities] = useState<Activity[]>([]);
-  const [chatMessages, setChatMessages] = useState<Array<{type: 'user' | 'agent', message: string, timestamp: string}>>([]);
-  const [currentMessage, setCurrentMessage] = useState('');
-
-  useEffect(() => {
-    setRepositories([
-      {
-        id: 1, name: 'Waiter_Ai', category: 'F&B AI Solutions', 
-        status: 'Complete', agent: 'Frontend Master', 
-        deploymentPlatform: 'Vercel', liveUrl: 'https://waiter-ai.vercel.app',
-        description: 'AI-powered Restaurant Virtual Wait Staff Assistant', 
-        estimatedMRR: '$50-200/month'
-      },
-      {
-        id: 2, name: 'FlairAi', category: 'Content Creation', 
-        status: 'In Progress', agent: 'AI Integration Specialist',
-        deploymentPlatform: 'Vercel', liveUrl: 'https://flair-ai.vercel.app',
-        description: 'AI Content Creation & Social Media Management', 
-        estimatedMRR: '$200-500/month'
-      },
-    ]);
-
-    setAgents([
-      {
-        id: 1, name: '🧠 AI Integration Specialist', specialization: 'AI/ML Integration', 
-        totalTasks: 45, completedTasks: 32, successRate: 89, repositoriesAssigned: 20, status: 'Active'
-      },
-      {
-        id: 2, name: '🎨 Frontend Master', specialization: 'React, TypeScript, UI/UX', 
-        totalTasks: 52, completedTasks: 41, successRate: 93, repositoriesAssigned: 25, status: 'Active'
-      },
-    ]);
-
-    setActivities([
-      {
-        timestamp: '2025-01-11T17:15:00', 
-        repository: 'Multi-AI-Autonomous-System', 
-        message: '🚀 All 8 AI agents deployed successfully!'
-      },
-      {
-        timestamp: '2025-01-11T17:00:00', 
-        repository: 'Waiter_Ai', 
-        message: '🧠 AI Integration Specialist analyzing upgrade opportunities'
-      },
-    ]);
-  }, []);
-
-  const sendMessage = () => {
-    if (!currentMessage.trim()) return;
-    
-    const newMessage = {
-      type: 'user' as const,
-      message: currentMessage,
-      timestamp: new Date().toISOString()
-    };
-    
-    setChatMessages(prev => [...prev, newMessage]);
-    
-    setTimeout(() => {
-      const agentResponse = {
-        type: 'agent' as const,
-        message: "🤖 Multi-AI Orchestrator here! I coordinate all 8 specialized agents. How can we help you today?",
-        timestamp: new Date().toISOString()
-      };
-      setChatMessages(prev => [...prev, agentResponse]);
-    }, 1000);
-    
-    setCurrentMessage('');
-  };
-
-  const executeAgentCommand = (command: string) => {
-    const commandMessage = {
-      type: 'user' as const,
-      message: `Execute: ${command}`,
-      timestamp: new Date().toISOString()
-    };
-    
-    setChatMessages(prev => [...prev, commandMessage]);
-  };
+  const [currentPage, setCurrentPage] = useState("dashboard");
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Sidebar */}
-      <aside className="fixed left-0 top-0 h-full w-64 bg-white border-r border-gray-200 p-6">
-        <div className="flex items-center gap-3 mb-8 pb-6 border-b border-gray-200">
-          <div className="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center text-white font-bold">
+    <div className="min-h-screen bg-slate-50">
+      <aside className="fixed left-0 top-0 h-full w-64 bg-white shadow-lg border-r border-slate-200 p-6 z-10">
+        <div className="flex items-center gap-3 mb-8 pb-6 border-b border-slate-200">
+          <div className="w-10 h-10 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
             W3
           </div>
-          <div className="text-lg font-bold text-gray-900">W3JDev AI</div>
+          <div className="text-lg font-bold text-slate-800">W3JDev AI</div>
         </div>
-        <nav>
+        <nav className="space-y-2">
           {[
-            { id: 'dashboard', label: 'Dashboard', icon: '📊' },
-            { id: 'repositories', label: 'Repositories', icon: '📁' },
-            { id: 'agents', label: 'AI Agents', icon: '🤖' },
-            { id: 'chat', label: 'Agent Chat', icon: '💬' },
-            { id: 'analytics', label: 'Analytics', icon: '📈' },
-            { id: 'deployments', label: 'Deployments', icon: '🚀' },
+            { id: "dashboard", label: "Dashboard", icon: "📊" },
+            { id: "repositories", label: "Repositories", icon: "📁" },
+            { id: "agents", label: "AI Agents", icon: "🤖" },
+            { id: "chat", label: "Agent Chat", icon: "💬" },
+            { id: "analytics", label: "Analytics", icon: "📈" },
+            { id: "deployments", label: "Deployments", icon: "🚀" },
           ].map(item => (
             <div 
               key={item.id}
-              className={`flex items-center gap-3 px-4 py-3 mb-1 rounded-lg cursor-pointer transition-colors ${
-                currentPage === item.id ? 'bg-teal-500 text-white' : 'text-gray-600 hover:bg-gray-100'
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all duration-200 ${
+                currentPage === item.id 
+                  ? "bg-gradient-to-r from-teal-500 to-cyan-600 text-white shadow-md" 
+                  : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
               }`}
               onClick={() => setCurrentPage(item.id)}
             >
               <span className="text-lg">{item.icon}</span>
-              <span>{item.label}</span>
+              <span className="font-medium">{item.label}</span>
             </div>
           ))}
         </nav>
+        
+        <div className="mt-8 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <span className="text-green-800 font-semibold text-sm">System Status</span>
+          </div>
+          <p className="text-green-700 text-xs">All 8 agents operational</p>
+          <p className="text-green-700 text-xs">130+ repos monitored</p>
+        </div>
       </aside>
 
-      {/* Main Content */}
       <main className="ml-64 p-6">
-        {/* Dashboard Page */}
-        {currentPage === 'dashboard' && (
-          <div>
-            <div className="bg-gradient-to-r from-teal-500 to-teal-700 text-white p-8 rounded-xl mb-8">
-              <h1 className="text-3xl font-bold mb-4">🚀 Multi-AI Autonomous System</h1>
-              <p className="text-lg opacity-90 mb-8">
-                8 Specialized AI Agents Managing 130+ Repositories • Generating Revenue 24/7
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 p-6 rounded-lg">
-                  <div className="text-2xl font-bold">130+</div>
-                  <div className="text-sm opacity-90">Repositories Managed</div>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 p-6 rounded-lg">
-                  <div className="text-2xl font-bold">8</div>
-                  <div className="text-sm opacity-90">AI Agents Active</div>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 p-6 rounded-lg">
-                  <div className="text-2xl font-bold">$2.5K</div>
-                  <div className="text-sm opacity-90">Monthly Revenue</div>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 p-6 rounded-lg">
-                  <div className="text-2xl font-bold">94%</div>
-                  <div className="text-sm opacity-90">Success Rate</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="space-y-6">
+          <div className="bg-gradient-to-r from-teal-500 via-cyan-600 to-blue-600 text-white p-8 rounded-2xl shadow-lg">
+            <h1 className="text-4xl font-bold mb-4">🚀 Multi-AI Autonomous System</h1>
+            <p className="text-xl opacity-90 mb-8">
+              8 Specialized AI Agents Managing 130+ Repositories • Generating Revenue 24/7
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               {[
-                { icon: '🚀', label: 'Deploy All', command: 'Deploy all pending repositories' },
-                { icon: '💚', label: 'Health Check', command: 'Run comprehensive health checks' },
-                { icon: '📊', label: 'Revenue Report', command: 'Generate revenue report' },
-                { icon: '🔄', label: 'Sync GitHub', command: 'Sync with GitHub' },
-              ].map((action, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white border border-gray-200 p-6 rounded-lg cursor-pointer hover:border-teal-500 hover:-translate-y-1 transition-all text-center"
-                  onClick={() => executeAgentCommand(action.command)}
-                >
-                  <div className="text-2xl mb-2">{action.icon}</div>
-                  <div className="font-medium">{action.label}</div>
+                { value: "130+", label: "Repositories Managed", icon: "📁" },
+                { value: "8", label: "AI Agents Active", icon: "🤖" },
+                { value: "$2.5K", label: "Monthly Revenue", icon: "💰" },
+                { value: "94%", label: "Success Rate", icon: "🎯" }
+              ].map((stat, idx) => (
+                <div key={idx} className="bg-white/10 backdrop-blur-sm border border-white/20 p-6 rounded-xl hover:bg-white/20 transition-all duration-300">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-2xl">{stat.icon}</span>
+                    <div className="text-3xl font-bold">{stat.value}</div>
+                  </div>
+                  <div className="text-sm opacity-90">{stat.label}</div>
                 </div>
               ))}
             </div>
-
-            <div className="bg-white border border-gray-200 rounded-lg p-6">
-              <h2 className="text-xl font-semibold mb-6">🔥 Live Agent Activity</h2>
-              <div className="space-y-4">
-                {activities.map((activity, index) => (
-                  <div key={index} className="flex gap-4 p-4 border-l-2 border-teal-500 relative">
-                    <div className="absolute -left-2 top-5 w-4 h-4 bg-teal-500 rounded-full"></div>
-                    <div className="flex-1">
-                      <div className="text-sm text-gray-500">
-                        {new Date(activity.timestamp).toLocaleTimeString()}
-                      </div>
-                      <div className="font-medium text-gray-900">
-                        <strong>{activity.repository}</strong>: {activity.message}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
-        )}
 
-        {/* Chat Page */}
-        {currentPage === 'chat' && (
-          <div>
-            <h1 className="text-2xl font-bold mb-6">💬 Agent Communication Center</h1>
-            
-            <div className="bg-white border border-gray-200 rounded-lg h-96 flex flex-col">
-              <div className="flex-1 p-6 overflow-y-auto">
-                {chatMessages.length === 0 ? (
-                  <div className="text-center text-gray-500 mt-16">
-                    <p className="text-lg mb-4">👋 Hello! I&apos;m your Multi-AI Orchestrator.</p>
-                    <p className="mb-4">I coordinate 8 specialized AI agents to manage your entire portfolio.</p>
-                    <div className="text-left max-w-md mx-auto">
-                      <p className="font-semibold mb-2">Try these commands:</p>
-                      <ul className="space-y-1 text-sm">
-                        <li>&quot;Deploy my Waiter_Ai project&quot;</li>
-                        <li>&quot;Add AI features to PUNCH-CLOCK&quot;</li>
-                        <li>&quot;Update documentation for all repos&quot;</li>
-                        <li>&quot;Show me revenue opportunities&quot;</li>
-                        <li>&quot;Run quality tests on FlairAi&quot;</li>
-                      </ul>
-                    </div>
-                  </div>
-                ) : (
-                  chatMessages.map((msg, index) => (
-                    <div key={index} className={`mb-4 flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`max-w-lg p-3 rounded-lg ${
-                        msg.type === 'user' 
-                          ? 'bg-teal-500 text-white' 
-                          : 'bg-gray-100 text-gray-900'
-                      }`}>
-                        <div className="font-semibold text-sm mb-1">
-                          {msg.type === 'user' ? '👤 You' : '🤖 AI Agent'}
-                        </div>
-                        <div>{msg.message}</div>
-                        <div className="text-xs opacity-75 mt-1">
-                          {new Date(msg.timestamp).toLocaleTimeString()}
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                )}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {[
+              { icon: "🚀", label: "Deploy All", color: "from-blue-500 to-blue-600" },
+              { icon: "💚", label: "Health Check", color: "from-green-500 to-green-600" },
+              { icon: "📊", label: "Revenue Report", color: "from-purple-500 to-purple-600" },
+              { icon: "🔄", label: "Sync GitHub", color: "from-orange-500 to-orange-600" },
+            ].map((action, idx) => (
+              <div
+                key={idx}
+                className={`bg-gradient-to-r ${action.color} text-white p-6 rounded-xl cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-center`}
+              >
+                <div className="text-3xl mb-3">{action.icon}</div>
+                <div className="font-semibold text-lg">{action.label}</div>
               </div>
-              
-              <div className="p-4 border-t border-gray-200">
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={currentMessage}
-                    onChange={(e) => setCurrentMessage(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                    placeholder="Tell your AI agents what to do..."
-                    className="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  />
-                  <button 
-                    onClick={sendMessage}
-                    className="bg-teal-500 text-white px-6 py-3 rounded-lg hover:bg-teal-600"
-                  >
-                    Send
-                  </button>
+            ))}
+          </div>
+
+          <div className="bg-white rounded-xl shadow-md border border-slate-200 p-6">
+            <h2 className="text-xl font-semibold text-slate-800 mb-6 flex items-center gap-2">
+              🔥 Live Agent Activity
+              <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Live</span>
+            </h2>
+            <div className="space-y-4">
+              <div className="flex gap-4 p-4 bg-slate-50 rounded-lg border-l-4 border-teal-500">
+                <div className="flex-shrink-0">
+                  <div className="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center">
+                    <div className="w-3 h-3 bg-white rounded-full"></div>
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm text-slate-500 mb-1">
+                    {new Date().toLocaleTimeString()} • Multi-AI-Autonomous-System
+                  </div>
+                  <div className="font-medium text-slate-800">🚀 All 8 AI agents deployed successfully!</div>
                 </div>
               </div>
             </div>
           </div>
-        )}
-
-        {/* Other pages */}
-        {currentPage !== 'dashboard' && currentPage !== 'chat' && (
-          <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
-            <h2 className="text-2xl font-bold mb-4">
-              {currentPage === 'repositories' && '📁 Repository Portfolio'}
-              {currentPage === 'agents' && '🤖 AI Agent Command Center'}
-              {currentPage === 'analytics' && '📈 Portfolio Analytics'}
-              {currentPage === 'deployments' && '🚀 Live Deployments'}
-            </h2>
-            <p className="text-gray-600">This section is under development. Your AI agents are working on it!</p>
-          </div>
-        )}
+        </div>
       </main>
     </div>
   );
